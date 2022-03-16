@@ -7,15 +7,15 @@ using std::string;
 namespace jidantou
 {
     // pack file into several files and entrypt
-    bool PackFile(string fileName, string path, int size, string key);
+    int PackFile(string fileName, string path, int size, string key);
 
     // pack file into several files with no entrypting
-    bool PackFile(string fileName, string path, int size);
+    int PackFile(string fileName, string path, int size);
 
     // unpack files and restore with entrypting
-    bool UnpackFiles(string fileName, string path, int size, string key);
+    int UnpackFiles(string fileName, string path, int size, string key);
 
     // unpack files and restore with no entrypting
-    bool UnpackFiles(string fileName, string path, int size);
+    int UnpackFiles(string fileName, string path, int size);
 }
 #endif
