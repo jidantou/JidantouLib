@@ -1,5 +1,6 @@
 #include "pack.h"
 #include <iostream>
+#include <stdio.h>
 #include <fstream>
 
 using namespace jidantou;
@@ -15,6 +16,7 @@ int PackFile(string fileName, string filePath, int size, string key)
     unsigned long iFileSize;
     char * pbuff;
     int buffNum;
+    string outputPath;
     
     ifstream * pfile = new ifstream(filePath, ios::binary | ios::in);
     ofstream * pOutputFile;
@@ -22,6 +24,8 @@ int PackFile(string fileName, string filePath, int size, string key)
     if(pfile->fail())
         return 1;
     
+    system(("mkdir " + filePath).c_str());
+
     // get the size of file
     pfile->seekg(ios::end);
     iFileSize = pfile->tellg();
@@ -30,9 +34,14 @@ int PackFile(string fileName, string filePath, int size, string key)
     // get the number of output files
     buffNum = iFileSize / size;
 
+    char c;
+
     for (int i = 0; i < buffNum; i++)
     {
-        pOutputFile = new ofstream(filePath, ios::binary);
+        c = i + 65;
+        outputPath = ".\\" + fileName + &c;
+        
+        pOutputFile = new ofstream(outputPath, ios::binary);
 
         if(!pOutputFile->fail())
         {
@@ -54,7 +63,10 @@ int PackFile(string fileName, string filePath, int size, string key)
 
     if(!pfile->eof())
     {
-        pOutputFile = new ofstream(filePath, ios::binary);
+        c++;
+        outputPath = ".\\" + fileName + &c;
+        
+        pOutputFile = new ofstream(outputPath, ios::binary);
         if(!pOutputFile->fail())
         {
             pbuff = new char[iFileSize - buffNum * size];
@@ -79,6 +91,8 @@ int PackFile(string fileName, string filePath, int size, string key)
     
     pfile->close();
     delete pfile;
+
+    return 0;
 }
 
 // pack file into several files with no entrypting
