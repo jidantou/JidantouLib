@@ -11,20 +11,20 @@ using std::ofstream;
 using std::ios;
 
 // pack file into several files and entrypt
-int PackFile(string fileName, string filePath, int size, string key)
+int PackFile(string fileName, int size, string key)
 {
     unsigned long iFileSize;
     char * pbuff;
     int buffNum;
     string outputPath;
     
-    ifstream * pfile = new ifstream(filePath, ios::binary | ios::in);
+    ifstream * pfile = new ifstream(fileName, ios::binary | ios::in);
     ofstream * pOutputFile;
 
     if(pfile->fail())
         return 1;
     
-    system(("mkdir " + filePath).c_str());
+    system(("mkdir " + fileName).c_str());
 
     // get the size of file
     pfile->seekg(ios::end);
