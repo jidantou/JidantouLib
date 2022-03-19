@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <fstream>
 
-using namespace jidantou;
+// using namespace jidantou;
 
 using std::string;
 using std::ifstream;
@@ -11,7 +11,7 @@ using std::ofstream;
 using std::ios;
 
 // pack file into several files and entrypt
-int PackFile(string fileName, int size, string key)
+int jidantou::PackFile(string fileName, int size, string key)
 {
     unsigned long iFileSize;
     char * pbuff;
@@ -24,7 +24,13 @@ int PackFile(string fileName, int size, string key)
     if(pfile->fail())
         return 1;
     
-    system(("mkdir " + fileName).c_str());
+    if(fileName.find('.') == string::npos)
+        return 3;
+
+    fileName.erase(fileName.find_last_of('.'), fileName.length());
+
+    //if(system(("mkdir " + fileName).c_str()) == -1)
+        //return 2;
 
     // get the size of file
     pfile->seekg(ios::end);
@@ -34,12 +40,15 @@ int PackFile(string fileName, int size, string key)
     // get the number of output files
     buffNum = iFileSize / size;
 
-    char c;
+    char c[3] = {'0', '0', '\0'};
 
     for (int i = 0; i < buffNum; i++)
     {
-        c = i + 65;
-        outputPath = ".\\" + fileName + &c;
+        
+        c[0] = i / 10 + 48;
+        c[1] = i % 10 + 48;
+
+        outputPath = ".\\" + fileName + "\\" + fileName + c;
         
         pOutputFile = new ofstream(outputPath, ios::binary);
 
@@ -63,8 +72,7 @@ int PackFile(string fileName, int size, string key)
 
     if(!pfile->eof())
     {
-        c++;
-        outputPath = ".\\" + fileName + &c;
+        outputPath = ".\\" + fileName + "\\" + fileName + "_last";
         
         pOutputFile = new ofstream(outputPath, ios::binary);
         if(!pOutputFile->fail())

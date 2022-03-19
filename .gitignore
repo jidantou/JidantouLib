@@ -1,1 +1,5 @@
 test.*
+*.o
+0test.cpp
+*.bat
+test
