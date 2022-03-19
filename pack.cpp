@@ -11,9 +11,9 @@ using std::ofstream;
 using std::ios;
 
 // pack file into several files and entrypt
-int jidantou::PackFile(string fileName, int size, string key)
+int jidantou::PackFile(string fileName, int size)
 {
-    unsigned long iFileSize;
+    unsigned long fileSize;
     char * pbuff;
     int buffNum;
     string outputPath;
@@ -34,11 +34,11 @@ int jidantou::PackFile(string fileName, int size, string key)
 
     // get the size of file
     pfile->seekg(ios::end);
-    iFileSize = pfile->tellg();
+    fileSize = pfile->tellg();
     pfile->seekg(ios::beg);
 
     // get the number of output files
-    buffNum = iFileSize / size;
+    buffNum = fileSize / size;
 
     char c[3] = {'0', '0', '\0'};
 
@@ -77,11 +77,11 @@ int jidantou::PackFile(string fileName, int size, string key)
         pOutputFile = new ofstream(outputPath, ios::binary);
         if(!pOutputFile->fail())
         {
-            pbuff = new char[iFileSize - buffNum * size];
+            pbuff = new char[fileSize - buffNum * size];
 
-            pfile->read(pbuff, iFileSize - buffNum * size);
+            pfile->read(pbuff, fileSize - buffNum * size);
             // deal with data in the file
-            pOutputFile->write(pbuff, iFileSize - buffNum * size);
+            pOutputFile->write(pbuff, fileSize - buffNum * size);
 
             pOutputFile->close();
             delete [] pbuff;

@@ -7,7 +7,7 @@ using std::string;
 namespace jidantou
 {
     // pack file into several files and entrypt
-    int PackFile(string fileName, int size, string key);
+    int PackFile(string fileName, int size);
 
     // pack file into several files with no entrypting
     int PackFile(string fileName, string path, int size);

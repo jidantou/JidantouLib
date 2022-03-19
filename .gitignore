@@ -1,5 +1,6 @@
-test.*
+Output
 *.o
 0test.cpp
 *.bat
 test
+.vscode
