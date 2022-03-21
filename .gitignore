@@ -1,6 +1,6 @@
 Output
 *.o
-0test.cpp
-*.bat
+test.*
 test
+*.bat
 .vscode

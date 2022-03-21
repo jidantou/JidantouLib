@@ -10,6 +10,41 @@ using std::ifstream;
 using std::ofstream;
 using std::ios;
 
+static char DecimalString[11] = "0123456789";
+// turn int to std::string
+string jidantou::IntToString(int64_t integer)
+{
+    string finalstr;
+    char str[20] = {"0000000000000000000"};
+    int i = 19, j;
+
+    while (integer && i)
+    {
+        str[i] = DecimalString[integer % 10];
+        integer /= 10;
+        i--;
+    }
+
+    for(i = 0; str[i] == '0' && i <20; i++);
+
+    if(i == 20)
+        finalstr = "";
+    else if(i == 0)
+        finalstr = str;
+    else
+    {
+        char * s = new char[20 - i];
+
+        for(j = 0; i < 20; i++, j++)
+        {
+            s[j] = str[i];
+        }
+        finalstr = s;
+        delete[] s;
+    }
+    return finalstr;
+}
+
 // pack file into several files and entrypt
 int jidantou::PackFile(string fileName, int size)
 {
@@ -29,13 +64,13 @@ int jidantou::PackFile(string fileName, int size)
 
     fileName.erase(fileName.find_last_of('.'), fileName.length());
 
-    //if(system(("mkdir " + fileName).c_str()) == -1)
-        //return 2;
+    if(system(("mkdir " + fileName).c_str()) == -1)
+        return 2;
 
     // get the size of file
-    pfile->seekg(ios::end);
+    pfile->seekg(0, ios::end);
     fileSize = pfile->tellg();
-    pfile->seekg(ios::beg);
+    pfile->seekg(0, ios::beg);
 
     // get the number of output files
     buffNum = fileSize / size;
