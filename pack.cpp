@@ -10,6 +10,35 @@ using std::ifstream;
 using std::ofstream;
 using std::ios;
 
+/* Better realization
+#include <string>
+
+using namespace std;
+string IntToString(int val)
+{
+      int length = 0;
+      bool Below = val < 0;
+      string t = "";
+      string ret = "";
+      if(!val)
+            return "0";
+      if (Below)
+      {
+            val = -val;
+            ret = "-";
+      }
+      while(val)
+      {
+            t = t + (char)(val % 10 + 48);
+            val = val / 10;
+            length++;
+      }
+      for(int j = 0; j < length; j++)
+            ret = ret + t[length - j - 1];
+      return ret;
+}
+int 
+*/
 static char DecimalString[11] = "0123456789";
 // turn int to std::string
 string jidantou::IntToString(int64_t integer)
@@ -25,10 +54,10 @@ string jidantou::IntToString(int64_t integer)
         i--;
     }
 
-    for(i = 0; str[i] == '0' && i <20; i++);
-
+    for(i = 0; str[i] == '0' && i < 20; i++);
+    std::cout << i << std::endl;
     if(i == 20)
-        finalstr = "";
+        finalstr = "0";
     else if(i == 0)
         finalstr = str;
     else
@@ -75,15 +104,10 @@ int jidantou::PackFile(string fileName, int size)
     // get the number of output files
     buffNum = fileSize / size;
 
-    char c[3] = {'0', '0', '\0'};
-
     for (int i = 0; i < buffNum; i++)
     {
         
-        c[0] = i / 10 + 48;
-        c[1] = i % 10 + 48;
-
-        outputPath = ".\\" + fileName + "\\" + fileName + c;
+        outputPath = ".\\" + fileName + "\\" + fileName + IntToString(i);
         
         pOutputFile = new ofstream(outputPath, ios::binary);
 
@@ -107,7 +131,7 @@ int jidantou::PackFile(string fileName, int size)
 
     if(!pfile->eof())
     {
-        outputPath = ".\\" + fileName + "\\" + fileName + "_last";
+        outputPath = ".\\" + fileName + "\\" + fileName + IntToString(buffNum);
         
         pOutputFile = new ofstream(outputPath, ios::binary);
         if(!pOutputFile->fail())
