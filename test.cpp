@@ -8,11 +8,13 @@ using namespace jidantou;
 
 int main()
 {
-    //cout << PackFile(".\\test.txt", 1);
-    string str = IntToString(00);
-    cout << str << endl;
-    cout << str.length() << endl;
+    ofstream test("test.txt", ios::out);
+    for (int i = 0; i < 21; i++)
+    {
+        test << IntToString(i) << "\n";
+    }
+    test.close();
     
-
+    cout << PackFile(".\\test.txt", 3) << endl;
     return 0;
 }

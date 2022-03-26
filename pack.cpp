@@ -3,42 +3,47 @@
 #include <stdio.h>
 #include <fstream>
 
-// using namespace jidantou;
+// DEBUG
+// using namespace std;
 
 using std::string;
 using std::ifstream;
 using std::ofstream;
 using std::ios;
 
-/* Better realization
-#include <string>
+string jidantou::IntToString(int64_t val)
+    {
+    int length = 0;
+    int i = 0, j;
+    string str = "";
+    char temp;
 
-using namespace std;
-string IntToString(int val)
-{
-      int length = 0;
-      bool Below = val < 0;
-      string t = "";
-      string ret = "";
-      if(!val)
-            return "0";
-      if (Below)
-      {
-            val = -val;
-            ret = "-";
-      }
-      while(val)
-      {
-            t = t + (char)(val % 10 + 48);
-            val = val / 10;
-            length++;
-      }
-      for(int j = 0; j < length; j++)
-            ret = ret + t[length - j - 1];
-      return ret;
+    if(!val)
+        return "0";
+    if (val < 0)
+    {
+        val = -val;
+        str = "-";
+        i = 1;
+    }
+    // put ever number into str 
+    while(val)
+    {
+        str = str + (char)(val % 10 + 48);
+        val = val / 10;
+        length++;
+    }
+    // change the order in str
+    for(j = str.length() - 1; i < j; i++, j--)
+    {
+        temp = str[j];
+        str[j] = str[i];
+        str[i] = temp;
+    }
+    return str;
 }
-int 
-*/
+
+/*
 static char DecimalString[11] = "0123456789";
 // turn int to std::string
 string jidantou::IntToString(int64_t integer)
@@ -73,6 +78,7 @@ string jidantou::IntToString(int64_t integer)
     }
     return finalstr;
 }
+*/
 
 // pack file into several files and entrypt
 int jidantou::PackFile(string fileName, int size)
@@ -100,9 +106,13 @@ int jidantou::PackFile(string fileName, int size)
     pfile->seekg(0, ios::end);
     fileSize = pfile->tellg();
     pfile->seekg(0, ios::beg);
+    // DEBUG
+    // cout << fileSize << endl;
 
     // get the number of output files
     buffNum = fileSize / size;
+    // DEBUG
+    // cout << "buffNum:" << buffNum << endl;
 
     for (int i = 0; i < buffNum; i++)
     {
@@ -129,31 +139,38 @@ int jidantou::PackFile(string fileName, int size)
         delete pOutputFile;
     }
 
-    if(!pfile->eof())
+    // DEBUG
+    // if(pfile->eof())
+    //     cout << "pfile->eof()" << endl;
+
+    if(fileSize % size)
     {
-        outputPath = ".\\" + fileName + "\\" + fileName + IntToString(buffNum);
-        
-        pOutputFile = new ofstream(outputPath, ios::binary);
-        if(!pOutputFile->fail())
+        if(!pfile->eof())
         {
-            pbuff = new char[fileSize - buffNum * size];
+            outputPath = ".\\" + fileName + "\\" + fileName + IntToString(buffNum);
+            
+            pOutputFile = new ofstream(outputPath, ios::binary);
+            if(!pOutputFile->fail())
+            {
+                pbuff = new char[fileSize - buffNum * size];
 
-            pfile->read(pbuff, fileSize - buffNum * size);
-            // deal with data in the file
-            pOutputFile->write(pbuff, fileSize - buffNum * size);
+                pfile->read(pbuff, fileSize - buffNum * size);
+                // deal with data in the file
+                pOutputFile->write(pbuff, fileSize - buffNum * size);
 
-            pOutputFile->close();
-            delete [] pbuff;
+                pOutputFile->close();
+                delete [] pbuff;
+            }
+            else
+            {
+                // deal with error 
+                // in the last output file
+            }
+
+            buffNum++;
+
+            delete pOutputFile;
         }
-        else
-        {
-            // deal with error 
-            // in the last output file
-        }
-
-        buffNum++;
-
-        delete pOutputFile;
     }
     
     pfile->close();

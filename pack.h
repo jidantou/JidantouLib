@@ -5,8 +5,8 @@
 using std::string;
 
 namespace jidantou
-{
-    string IntToString(int64_t integer);
+{   
+    string IntToString(int64_t val);
 
     // pack file into several files and entrypt
     int PackFile(string fileName, int size);
