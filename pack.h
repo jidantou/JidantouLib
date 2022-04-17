@@ -4,7 +4,7 @@
 #include <iostream>
 using std::string;
 
-namespace jidantou
+namespace Jidantou
 {   
     string IntToString(int64_t val);
 

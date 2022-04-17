@@ -4,7 +4,7 @@
 #include "pack.h"
 
 using namespace std;
-using namespace jidantou;
+using namespace Jidantou;
 
 int main()
 {

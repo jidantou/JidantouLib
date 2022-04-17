@@ -11,7 +11,7 @@ using std::ifstream;
 using std::ofstream;
 using std::ios;
 
-string jidantou::IntToString(int64_t val)
+string Jidantou::IntToString(int64_t val)
     {
     int length = 0;
     int i = 0, j;
@@ -46,7 +46,7 @@ string jidantou::IntToString(int64_t val)
 /*
 static char DecimalString[11] = "0123456789";
 // turn int to std::string
-string jidantou::IntToString(int64_t integer)
+string Jidantou::IntToString(int64_t integer)
 {
     string finalstr;
     char str[20] = {"0000000000000000000"};
@@ -81,7 +81,7 @@ string jidantou::IntToString(int64_t integer)
 */
 
 // pack file into several files and entrypt
-int jidantou::PackFile(string fileName, int size)
+int Jidantou::PackFile(string fileName, int size)
 {
     unsigned long fileSize;
     char * pbuff;
@@ -178,12 +178,3 @@ int jidantou::PackFile(string fileName, int size)
 
     return 0;
 }
-
-// pack file into several files with no entrypting
-int PackFile(string fileName, string path, int size);
-
-// unpack files and restore with entrypting
-int UnpackFiles(string fileName, string path, int size, string key);
-
-// unpack files and restore with no entrypting
-int UnpackFiles(string fileName, string path, int size);
