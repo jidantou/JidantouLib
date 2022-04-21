@@ -1,27 +1,33 @@
-#ifndef _FRACTION_H_
-#define _FRACTION_H_
+#pragma once
+
+#include <iostream>
 
 namespace Jidantou
 {
-      template <class Type>
       class fraction
       {
       private:
-            Type _numerator;
-            Type _denominator;
+            int64_t _numerator;
+            int64_t _denominator;
 
+            void reduction();
 
       public:
             fraction();
-            fraction(const Type numerator, const Type denominator);
-            fraction(const fraction<Type>& fraction1);
+            fraction(const int64_t numerator, const int64_t denominator);
+            fraction(const fraction& fraction1);
             ~fraction();
 
-            fraction<Type>& operator +(const fraction<Type>& fraction2);
-            fraction<Type>& operator -(const fraction<Type>& fraction2);
-            fraction<Type>& operator *(const fraction<Type>& fraction2);
-            fraction<Type>& operator /(const fraction<Type>& fraction2);
+            friend ostream& operator<<(ostream& out,const fraction fraction1);
+            
+            fraction& operator +(const fraction& fraction2);
+            fraction& operator -(const fraction& fraction2);
+            fraction& operator *(const fraction& fraction2);
+            fraction& operator /(const fraction& fraction2);
+            fraction& operator +=(const fraction& fraction2);
+            fraction& operator -=(const fraction& fraction2);
+            fraction& operator *=(const fraction& fraction2);
+            fraction& operator /=(const fraction& fraction2);
       };
-}
 
-#endif
+}

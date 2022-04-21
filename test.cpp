@@ -1,20 +1,20 @@
 #include <iostream>
 #include <fstream>
 
-#include "pack.h"
+#include "fraction.h"
 
 using namespace std;
 using namespace Jidantou;
 
 int main()
 {
-    ofstream test("test.txt", ios::out);
-    for (int i = 0; i < 21; i++)
-    {
-        test << IntToString(i) << "\n";
-    }
-    test.close();
-    
-    cout << PackFile(".\\test.txt", 3) << endl;
+
+    fraction<int> f1, f2(2, 3);
+
+    f1 = f2;
+
+    f1.output();
+    f2.output();
+
     return 0;
 }

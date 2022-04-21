@@ -4,13 +4,11 @@
 using namespace std;
 using namespace Jidantou;
 
-template <class Type>
-inline fraction<Type>::fraction()
+inline fraction::fraction()
 {
 }
 
-template <class Type>
-inline fraction<Type>::fraction(Type numerator, Type denominator)
+inline fraction::fraction(int64_t numerator, int64_t denominator)
 {
       if(denominator)
       {
@@ -28,21 +26,18 @@ inline fraction<Type>::fraction(Type numerator, Type denominator)
       }
 }
 
-template <class Type>
-inline fraction<Type>::fraction(const fraction<Type>& fraction1)
+inline fraction::fraction(const fraction& fraction1)
 {
       _numerator = fraction1._numerator;
       _denominator = fraction1._denominator;
 }
 
-template <class Type>
-fraction<Type>::~fraction()
+fraction::~fraction()
 {}
 
-template <class Type>
-fraction<Type>& fraction<Type>::operator +(const fraction<Type>& fraction2)
+fraction& fraction::operator +(const fraction& fraction2)
 {
-      fraction<Type> fraction3;
+      fraction fraction3;
 
       if(_denominator == fraction2._denominator)
       {
@@ -57,10 +52,9 @@ fraction<Type>& fraction<Type>::operator +(const fraction<Type>& fraction2)
       return fraction3;
 }
 
-template <class Type>
-fraction<Type>& fraction<Type>::operator -(const fraction<Type>& fraction2)
+fraction& fraction::operator -(const fraction& fraction2)
 {
-      fraction<Type> fraction3;
+      fraction fraction3;
 
       if(_denominator == fraction2._denominator)
       {
@@ -75,10 +69,8 @@ fraction<Type>& fraction<Type>::operator -(const fraction<Type>& fraction2)
       return fraction3;
 }
 
-template <class Type>
-fraction<Type>& fraction<Type>::operator *(const fraction<Type>& fraction2)
+fraction& fraction::operator *(const fraction& fraction2)
 {}
 
-template <class Type>
-fraction<Type>& fraction<Type>::operator/(const fraction<Type>& fraction2)
+fraction& fraction::operator/(const fraction& fraction2)
 {}
