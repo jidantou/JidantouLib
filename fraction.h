@@ -28,6 +28,7 @@ namespace Jidantou
 
             friend ostream& operator<<(ostream& out,const fraction fraction1);
             
+            fraction& operator -();
             fraction operator +(const fraction& fraction2);
             fraction operator -(const fraction& fraction2);
             fraction operator *(const fraction& fraction2);

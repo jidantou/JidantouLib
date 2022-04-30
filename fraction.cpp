@@ -59,6 +59,12 @@ inline void fraction::reduction()
       
 }
 
+fraction& fraction::operator -()
+{
+      _sign = ~ _sign;
+}
+
+
 fraction fraction::operator +(const fraction& fraction2)
 {
       fraction fraction3;
