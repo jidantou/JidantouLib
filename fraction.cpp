@@ -64,7 +64,6 @@ fraction& fraction::operator -()
       _sign = ~ _sign;
 }
 
-
 fraction fraction::operator +(const fraction& fraction2)
 {
       fraction fraction3;
@@ -112,9 +111,3 @@ fraction fraction::operator -(const fraction& fraction2)
       }
       return fraction3;
 }
-
-fraction fraction::operator *(const fraction& fraction2)
-{}
-
-fraction fraction::operator/(const fraction& fraction2)
-{}

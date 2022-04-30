@@ -22,11 +22,16 @@ namespace Jidantou
 
       public:
             fraction();
+            fraction(double data_double);
+            fraction(int64_t data_int);
             fraction(const uint64_t numerator, const uint64_t denominator, const bool sign = 0);
             fraction(const fraction& fraction1);
             ~fraction();
 
             friend ostream& operator<<(ostream& out,const fraction fraction1);
+
+            double to_double();
+            int64_t to_int64();
             
             fraction& operator -();
             fraction operator +(const fraction& fraction2);
