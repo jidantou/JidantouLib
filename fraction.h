@@ -33,6 +33,7 @@ namespace Jidantou
             double to_double();
             int64_t to_int64();
             
+            void reciprocal();
             fraction& operator -();
             fraction operator +(const fraction& fraction2);
             fraction operator -(const fraction& fraction2);

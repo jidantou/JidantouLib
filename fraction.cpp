@@ -1,4 +1,3 @@
-#include <cmath>
 #include "fraction.h"
 
 using namespace std;
@@ -22,6 +21,8 @@ inline fraction::fraction(const uint64_t numerator, const uint64_t denominator, 
             _denominator = denominator;
             _sign = sign;
       }
+
+      reduction();
 }
 
 inline fraction::fraction(const fraction& fraction1)
@@ -59,6 +60,14 @@ inline void fraction::reduction()
       
 }
 
+void fraction::reciprocal()
+{
+      int64_t temp;
+      temp = _numerator;
+      _numerator = _denominator;
+      _denominator = temp;
+}
+
 fraction& fraction::operator -()
 {
       _sign = ~ _sign;
@@ -93,21 +102,96 @@ fraction fraction::operator -(const fraction& fraction2)
       if(_denominator == fraction2._denominator)
       {
             fraction3._denominator = _denominator;
-            if(_numerator > fraction2._numerator)
-            {
-                  fraction3._numerator = _numerator - fraction2._numerator;
-                  fraction3._sign = 0;
-            }
-            else
-            {
-                  fraction3._numerator = fraction2._numerator - _numerator;
-                  fraction3._sign = 1;
-            }
+            fraction3._numerator = _sign ^ fraction2._sign != 0? _numerator + fraction2._numerator : (_numerator > fraction2._numerator)? _numerator - fraction2._numerator : fraction2._numerator - _numerator;
+            fraction3._sign = fraction3._numerator == 0? 0 : (_numerator > fraction2._numerator? _sign : fraction2._sign);
       }
       else
       {
             fraction3._denominator = _denominator * fraction2._denominator;
-            fraction3._numerator = _numerator * fraction2._denominator - _denominator * fraction2._numerator;
+            fraction3._numerator = _sign ^ fraction2._sign != 0? _numerator * fraction2._denominator + fraction2._numerator * _denominator : (_numerator * fraction2._denominator > fraction2._numerator * _denominator)? _numerator * fraction2._denominator - fraction2._numerator * _denominator : fraction2._numerator * _denominator - _numerator * fraction2._denominator;
+            fraction3._sign = fraction3._numerator == 0? 0 : (_numerator * fraction2._denominator > fraction2._numerator * _denominator? _sign : fraction2._sign);
       }
+
+      fraction3.reduction();
+
       return fraction3;
+}
+
+fraction fraction::operator *(const fraction& fraction2)
+{
+      fraction fraction3;
+
+      fraction3._sign = _sign ^ fraction2._sign == 0? 0 : 1;
+      fraction3._numerator = _numerator * fraction2._numerator;
+      fraction3._denominator = _denominator * fraction2._denominator;
+
+      return fraction3;
+}
+
+fraction fraction::operator /(const fraction& fraction2)
+{
+      fraction fraction3;
+
+      fraction3._sign = _sign ^ fraction2._sign == 0? 0 : 1;
+      fraction3._numerator = _numerator * fraction2._denominator;
+      fraction3._denominator = _denominator * fraction2._numerator;
+
+      return fraction3;
+}
+
+fraction& fraction::operator +=(const fraction& fraction2)
+{
+      if(_denominator == fraction2._denominator)
+      {
+            _numerator = _sign ^ fraction2._sign == 0? _numerator + fraction2._numerator : (_numerator > fraction2._numerator)? _numerator - fraction2._numerator : fraction2._numerator - _numerator;
+            _sign = _numerator == 0? 0 : (_numerator > fraction2._numerator? _sign : fraction2._sign);
+      }
+      else
+      {
+            _denominator = _denominator * fraction2._denominator;
+            _numerator = _sign ^ fraction2._sign == 0? _numerator * fraction2._denominator + fraction2._numerator * _denominator : (_numerator * fraction2._denominator > fraction2._numerator * _denominator)? _numerator * fraction2._denominator - fraction2._numerator * _denominator : fraction2._numerator * _denominator - _numerator * fraction2._denominator;
+            _sign = _numerator == 0? 0 : (_numerator * fraction2._denominator > fraction2._numerator * _denominator? _sign : fraction2._sign);
+      }
+
+      reduction();
+
+      return *this;
+}
+
+fraction& fraction::operator -=(const fraction& fraction2)
+{
+      if(_denominator == fraction2._denominator)
+      {
+            _numerator = _sign ^ fraction2._sign != 0? _numerator + fraction2._numerator : (_numerator > fraction2._numerator)? _numerator - fraction2._numerator : fraction2._numerator - _numerator;
+            _sign = _numerator == 0? 0 : (_numerator > fraction2._numerator? _sign : fraction2._sign);
+      }
+      else
+      {
+            _denominator = _denominator * fraction2._denominator;
+            _numerator = _sign ^ fraction2._sign != 0? _numerator * fraction2._denominator + fraction2._numerator * _denominator : (_numerator * fraction2._denominator > fraction2._numerator * _denominator)? _numerator * fraction2._denominator - fraction2._numerator * _denominator : fraction2._numerator * _denominator - _numerator * fraction2._denominator;
+            _sign = _numerator == 0? 0 : (_numerator * fraction2._denominator > fraction2._numerator * _denominator? _sign : fraction2._sign);
+      }
+
+      reduction();
+
+      return *this;
+
+}
+
+fraction& fraction::operator *=(const fraction& fraction2)
+{
+      _sign = _sign ^ fraction2._sign == 0? 0 : 1;
+      _numerator = _numerator * fraction2._numerator;
+      _denominator = _denominator * fraction2._denominator;
+
+      return *this;
+}
+
+fraction& fraction::operator /=(const fraction& fraction2)
+{
+      _sign = _sign ^ fraction2._sign == 0? 0 : 1;
+      _numerator = _numerator * fraction2._denominator;
+      _denominator = _denominator * fraction2._numerator;
+
+      return *this;
 }
