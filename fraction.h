@@ -7,8 +7,6 @@ namespace Jidantou
 {
       class fraction
       {
-      friend ostream& operator<<(ostream& out,const fraction fraction1);
-
       protected:
 
             // numerator, must be positive
@@ -29,6 +27,8 @@ namespace Jidantou
             void reduction();
 
       public:
+            friend ostream& operator<<(ostream& out,fraction fraction1);
+
             fraction();
             fraction(double num);
             fraction(int64_t num);
@@ -52,6 +52,13 @@ namespace Jidantou
             fraction& operator -=(const fraction& fraction2);
             fraction& operator *=(const fraction& fraction2);
             fraction& operator /=(const fraction& fraction2);
+
+            bool operator < (fraction fraction1);
+            bool operator > (fraction fraction1);
+            bool operator <= (fraction fraction1);
+            bool operator >= (fraction fraction1);
+            bool operator != (fraction fraction1);
+            bool operator == (fraction fraction1);
       };
 
 }

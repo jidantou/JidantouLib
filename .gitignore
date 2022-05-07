@@ -1,7 +1,7 @@
 Output
 build
 *.o
-test
+test.*
 *.bat
 .vscode
 test.txt
