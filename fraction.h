@@ -2,13 +2,13 @@
 
 #include <iostream>
 using std::ostream;
+using std::istream;
 
 namespace Jidantou
 {
       class fraction
       {
-      protected:
-
+      private:
             // numerator, must be positive
             uint64_t _numerator;
 
@@ -27,23 +27,24 @@ namespace Jidantou
             void reduction();
 
       public:
-            friend ostream& operator<<(ostream& out,fraction fraction1);
-
             fraction();
-            fraction(double num);
-            fraction(int64_t num);
+            fraction(const double num);
+            fraction(const int64_t num);
             fraction(const uint64_t numerator, const uint64_t denominator, const bool sign = 0);
             fraction(const fraction& fraction1);
             ~fraction();
 
-            double to_double(){return _numerator / _denominator;}
-            int64_t to_int64(){return _numerator / _denominator;}
+            friend ostream& operator<<(ostream& output, const fraction fraction1);
+            friend istream& operator>>(istream& input, fraction fraction1);
+
+            double to_double();
+            int64_t to_int64();
 
             bool isNaN();
             bool isInfinify();
             
             void reciprocal();
-            fraction& operator -();
+            fraction operator -();
             fraction operator +(const fraction& fraction2);
             fraction operator -(const fraction& fraction2);
             fraction operator *(const fraction& fraction2);
