@@ -55,6 +55,27 @@ namespace Jidantou
         reduction();
         }
 
+    fraction::fraction(const int8_t num)
+    {
+        _sign = num < 0? 1 : 0;
+        _numerator = num < 0? -num : num;
+        _denominator = 1;
+    }
+
+    fraction::fraction(const int16_t num)
+    {
+        _sign = num < 0? 1 : 0;
+        _numerator = num < 0? -num : num;
+        _denominator = 1;
+    }
+
+    fraction::fraction(const int32_t num)
+    {
+        _sign = num < 0? 1 : 0;
+        _numerator = num < 0? -num : num;
+        _denominator = 1;
+    }
+
     inline fraction::fraction(const int64_t num)
     {
         _sign = num < 0? 1 : 0;
@@ -71,18 +92,18 @@ namespace Jidantou
         reduction();
     }
 
-    inline fraction::fraction(const fraction& fraction1)
+    fraction::fraction(const fraction& fraction1)
     {
         _numerator = fraction1._numerator;
         _denominator = fraction1._denominator;
         _sign = fraction1._sign;
     }
+   
+    fraction::~fraction() {}
 
-    inline fraction::~fraction(){}
+    inline fraction::operator double() const {return _numerator / _denominator;}
 
-    inline double fraction::to_double() {return _numerator / _denominator;}
-
-    inline int64_t fraction::to_int64() {return _numerator / _denominator;}
+    inline fraction::operator int64_t() const {return _numerator / _denominator;}
 
     ostream& operator<<(ostream& output,const fraction fraction1)
     {
@@ -90,7 +111,7 @@ namespace Jidantou
         return output;
     }
 
-    istream& operator>>(istream& input, fraction fraction1)
+    istream& operator>>(istream& input, fraction& fraction1)
     {
         char c;
 
@@ -112,9 +133,9 @@ namespace Jidantou
         return input;
     }
 
-    inline bool fraction::isNaN() {return _numerator == 0 && _denominator == 0;}
+    inline bool fraction::isNaN() const {return _numerator == 0 && _denominator == 0;}
 
-    inline bool fraction::isInfinify() {return _numerator != 0 && _denominator == 0;}
+    inline bool fraction::isInfinify() const {return _numerator != 0 && _denominator == 0;}
 
     inline void fraction::reduction()
     {
@@ -153,17 +174,17 @@ namespace Jidantou
         _denominator = temp;
     }
 
-    fraction fraction::operator -()
+    fraction fraction::operator -() const
     {
         fraction fraction1;
         fraction1._numerator = _numerator;
         fraction1._denominator = _denominator;
         fraction1._sign = ~_sign;
 
-        return *this;
+        return fraction1;
     }
 
-    fraction fraction::operator +(const fraction& fraction2)
+    fraction fraction::operator + (const fraction& fraction2) const
     {
         fraction fraction3;
 
@@ -193,7 +214,7 @@ namespace Jidantou
         return fraction3;
     }
 
-    fraction fraction::operator -(const fraction& fraction2)
+    fraction fraction::operator -(const fraction& fraction2) const
     {
         fraction fraction3;
 
@@ -223,7 +244,7 @@ namespace Jidantou
         return fraction3;
     }
 
-    fraction fraction::operator *(const fraction& fraction2)
+    fraction fraction::operator *(const fraction& fraction2) const
     {
         fraction fraction3;
 
@@ -243,7 +264,7 @@ namespace Jidantou
         return fraction3;
     }
 
-    fraction fraction::operator /(const fraction& fraction2)
+    fraction fraction::operator /(const fraction& fraction2) const
     {
         fraction fraction3;
 
@@ -354,7 +375,7 @@ namespace Jidantou
         return *this;
     }
 
-    bool fraction::operator < (fraction fraction1)
+    bool fraction::operator < (const fraction fraction1) const
     {
         if(_sign > fraction1._sign)
             return true;
@@ -366,7 +387,7 @@ namespace Jidantou
             return _numerator * fraction1._denominator < fraction1._numerator * _denominator;
     }
 
-    bool fraction::operator > (fraction fraction1)
+    bool fraction::operator > (const fraction fraction1) const
     {
         if(_sign < fraction1._sign)
             return true;
@@ -378,7 +399,7 @@ namespace Jidantou
             return _numerator * fraction1._denominator > fraction1._numerator * _denominator;
     }
 
-    bool fraction::operator <= (fraction fraction1)
+    bool fraction::operator <= (const fraction fraction1) const
     {
         if(_sign > fraction1._sign)
             return true;
@@ -390,7 +411,7 @@ namespace Jidantou
             return _numerator * fraction1._denominator <= fraction1._numerator * _denominator;
     }
 
-    bool fraction::operator >= (fraction fraction1)
+    bool fraction::operator >= (const fraction fraction1) const
     {
         if(_sign < fraction1._sign)
             return true;
@@ -402,14 +423,14 @@ namespace Jidantou
             return _numerator * fraction1._denominator >= fraction1._numerator * _denominator;
     }
 
-    bool fraction::operator != (fraction fraction1)
+    bool fraction::operator != (const fraction fraction1) const
     {
         return (_denominator != fraction1._denominator)
             || (_numerator != fraction1._numerator)
             || (_sign != fraction1._sign);
     }
 
-    bool fraction::operator == (fraction fraction1)
+    bool fraction::operator == (const fraction fraction1) const
     {
         return (_numerator == fraction1._numerator) && 
             (_denominator == fraction1._denominator) && 

@@ -29,37 +29,39 @@ namespace Jidantou
       public:
             fraction();
             fraction(const double num);
+            fraction(const int8_t num);
+            fraction(const int16_t num);
+            fraction(const int32_t num);
             fraction(const int64_t num);
             fraction(const uint64_t numerator, const uint64_t denominator, const bool sign = 0);
             fraction(const fraction& fraction1);
             ~fraction();
 
             friend ostream& operator<<(ostream& output, const fraction fraction1);
-            friend istream& operator>>(istream& input, fraction fraction1);
+            friend istream& operator>>(istream& input, fraction& fraction1);
 
-            double to_double();
-            int64_t to_int64();
-
-            bool isNaN();
-            bool isInfinify();
+            bool isNaN() const;
+            bool isInfinify() const;
             
             void reciprocal();
-            fraction operator -();
-            fraction operator +(const fraction& fraction2);
-            fraction operator -(const fraction& fraction2);
-            fraction operator *(const fraction& fraction2);
-            fraction operator /(const fraction& fraction2);
+            operator double() const;
+            operator int64_t() const;
+            fraction operator -() const;
+            fraction operator +(const fraction& fraction2) const;
+            fraction operator -(const fraction& fraction2) const;
+            fraction operator *(const fraction& fraction2) const;
+            fraction operator /(const fraction& fraction2) const;
             fraction& operator +=(const fraction& fraction2);
             fraction& operator -=(const fraction& fraction2);
             fraction& operator *=(const fraction& fraction2);
             fraction& operator /=(const fraction& fraction2);
 
-            bool operator < (fraction fraction1);
-            bool operator > (fraction fraction1);
-            bool operator <= (fraction fraction1);
-            bool operator >= (fraction fraction1);
-            bool operator != (fraction fraction1);
-            bool operator == (fraction fraction1);
+            bool operator < (const fraction fraction1) const;
+            bool operator > (const fraction fraction1) const;
+            bool operator <= (const fraction fraction1) const;
+            bool operator >= (const fraction fraction1) const;
+            bool operator != (const fraction fraction1) const;
+            bool operator == (const fraction fraction1) const;
       };
 
 }
