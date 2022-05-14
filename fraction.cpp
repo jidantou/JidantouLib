@@ -4,7 +4,7 @@ using namespace std;
 
 namespace Jidantou
 {
-    inline fraction::fraction()
+    fraction::fraction()
     {
         _numerator = 0;
         _denominator = 1;
@@ -13,20 +13,25 @@ namespace Jidantou
 
     fraction::fraction(const double num)
     {
+        // cout << hex;
         int64_t temp;
         uint16_t exp;
 
         _sign = num < 0? 1 : 0;
-        temp = (int64_t)num;
+        temp = *((int64_t *)&num);
+        // cout << "temp:0x" << temp << endl;
 
         exp = temp >> 52;
         exp &= 0x07FF;
+        // cout << hex << "exp:0x" << exp << endl;
 
         _numerator = temp & 0x000FFFFFFFFFFFFF;
+        // cout << hex << "_numerator:0x" << temp << endl;
 
         switch (exp)
         {
         case 0x0000:
+            // cout << "case 0x0000" << endl;
             if(_numerator == 0)
                 _denominator = 1;
             else
@@ -34,6 +39,7 @@ namespace Jidantou
             break;
 
         case 0xFFFF:
+            // cout << "case 0xFFFF" << endl;
             if(_numerator == 0)
             {
                 _denominator = 0;
@@ -47,12 +53,16 @@ namespace Jidantou
             break;
 
         default:
+            // cout << "default" << endl;
             _denominator = 0x0010000000000000;
-            _denominator = exp < 127? _denominator << 127 - exp : _denominator >> exp - 127;
+            _denominator = exp < 1023? _denominator << 1023 - exp : _denominator >> exp - 1023;
+            // cout << hex << "0x" << _denominator << endl;
             _numerator |= 0x0010000000000000;
             break;
         }
+        // cout << "switch finish" << endl;
         reduction();
+        // cout << dec;
         }
 
     fraction::fraction(const int8_t num)
@@ -76,14 +86,14 @@ namespace Jidantou
         _denominator = 1;
     }
 
-    inline fraction::fraction(const int64_t num)
+    fraction::fraction(const int64_t num)
     {
         _sign = num < 0? 1 : 0;
         _numerator = num < 0? -num : num;
         _denominator = 1;
     }
 
-    inline fraction::fraction(const uint64_t numerator, const uint64_t denominator, const bool sign)
+    fraction::fraction(const uint64_t numerator, const uint64_t denominator, const bool sign)
     {
         _sign = sign;
         _numerator = numerator;
@@ -153,13 +163,28 @@ namespace Jidantou
 
             a = _numerator > _denominator ? _numerator : _denominator;
             b = _numerator > _denominator ? _denominator : _numerator;
+            // cout << "a:" << a << endl;
+            // cout << "b:" << b << endl;
 
+            /*
+            更相减损术
             while (a != b)
-            {
+            {   
                 c = a - b;
                 a = c > b? c: b;
                 b = c > b? b: c;
+                 cout << "a:" << a << "b:" << b << endl;
             }
+            */
+
+            c = a % b;
+            while (c != 0)
+            {
+                a = b;
+                b = c;
+                c = a % b;
+            }
+            
 
             _numerator /= a;
             _denominator /= a;
