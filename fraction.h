@@ -57,31 +57,78 @@ namespace Jidantou
         // destructor
         ~fraction();
 
-        // format output, numerator/denominator
+        // format output, "(-)numerator/denominator", such as -5/8
         friend ostream &operator<<(ostream &output, const fraction fraction1);
+
+        // format input
+        // please input fraction as "(-)numerator(int64_t)/(-)denominator(int64_t)"
+        // "-9c" will be recognized as -9/1
         friend istream &operator>>(istream &input, fraction &fraction1);
 
+        // judge whether this fraction is "Not a Number"
         bool isNaN() const;
+
+        // judge whether this fraction is infinify
         bool isInfinify() const;
 
+        // swap numerator and denominator
         void reciprocal();
-        operator double() const;
-        operator int64_t() const;
+
+        // Implicit conversion : fraction to double
+        operator double() const
+        {
+            return _sign == 0 ? _numerator / _denominator : -_numerator / _denominator;
+        }
+
+        // Implicit conversion : fraction to int64_t
+        operator int64_t() const
+        {
+            return _sign == 0 ? _numerator / _denominator : -_numerator / _denominator;
+        }
+
+        // overload function -fraction1
         fraction operator-() const;
+
+        // overload function fraction1 + fraction2
         fraction operator+(const fraction &fraction2) const;
+
+        // overload function fraction1 - fraction2
         fraction operator-(const fraction &fraction2) const;
+
+        // overload function fraction1 * fraction2
         fraction operator*(const fraction &fraction2) const;
+
+        // overload function fraction1 / fraction2
         fraction operator/(const fraction &fraction2) const;
+
+        // overload function fraction1 += fraction2
         fraction &operator+=(const fraction &fraction2);
+
+        // overload function fraction1 -= fraction2
         fraction &operator-=(const fraction &fraction2);
+
+        // overload function fraction1 *= fraction2
         fraction &operator*=(const fraction &fraction2);
+
+        // overload function fraction1 /= fraction2
         fraction &operator/=(const fraction &fraction2);
 
+        // judge fraction1 and fraction2
         bool operator<(const fraction fraction1) const;
+
+        // judge fraction1 and fraction2
         bool operator>(const fraction fraction1) const;
+
+        // judge fraction1 and fraction2
         bool operator<=(const fraction fraction1) const;
+
+        // judge fraction1 and fraction2
         bool operator>=(const fraction fraction1) const;
+
+        // judge fraction1 and fraction2
         bool operator!=(const fraction fraction1) const;
+
+        // judge fraction1 and fraction2
         bool operator==(const fraction fraction1) const;
     };
 

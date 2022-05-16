@@ -1,7 +1,9 @@
 Output
 build
+test.*
 .vscode
-
 *.o
-
-test.cpp
+CMakeFiles
+JidantouLibConfig.h.in
+CMakeCache.txt
+CMakeLists.txt

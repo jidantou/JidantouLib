@@ -1,6 +1,7 @@
 #include "fraction.h"
 
-using namespace std;
+using std::ostream;
+using std::istream;
 
 namespace Jidantou
 {
@@ -110,16 +111,6 @@ namespace Jidantou
     }
 
     fraction::~fraction() {}
-
-    inline fraction::operator double() const
-    {
-        return _sign == 0 ? _numerator / _denominator : -_numerator / _denominator;
-    }
-
-    inline fraction::operator int64_t() const
-    {
-        return _sign == 0 ? _numerator / _denominator : -_numerator / _denominator;
-    }
 
     ostream &operator<<(ostream &output, const fraction fraction1)
     {
